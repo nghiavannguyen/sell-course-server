@@ -2,14 +2,14 @@ import { registerAs } from '@nestjs/config';
 
 export const AppConfig = registerAs('app', () => ({
   isDev: process.env.NODE_ENV !== 'production',
-  port: parseInt(process.env.APP_PORT, 10) || 3000,
+  port: parseInt(process.env.APP_PORT, 10) || 3001,
   apiKey: process.env.API_KEY || 'my-secret-key',
   database: {
-    host: process.env.DATABASE_HOST || 'localhost',
+    host: process.env.DATABASE_HOST || 'db',
     port: parseInt(process.env.DATABASE_PORT, 10) || 5432,
     username: process.env.DATABASE_USERNAME || 'postgres',
     password: process.env.DATABASE_PASSWORD || 'postgres',
-    databaseName: process.env.DATABASE_NAME || 'ielts-database',
+    databaseName: process.env.DATABASE_NAME || 'postgres',
     ssl: process.env.DATABASE_EXIST_SSL || false,
   },
   jwt: {
