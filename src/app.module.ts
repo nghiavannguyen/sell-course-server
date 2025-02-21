@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -6,6 +6,8 @@ import { AppConfig } from './lib/config/app.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmPostgresConfig } from './lib/config/orm.config';
 import { UserModule } from './module/user/user.module';
+import { AuthModule } from './module/auth/auth.module';
+import { SharedModule } from './lib/shared/shared.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { UserModule } from './module/user/user.module';
       useFactory: TypeOrmPostgresConfig,
     }),
     UserModule,
+    AuthModule,
+    SharedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
