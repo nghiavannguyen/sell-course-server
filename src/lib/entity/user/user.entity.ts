@@ -12,6 +12,7 @@ import { Comment } from '../course/comment.entity';
 
 export enum UserRole {
   ADMIN = 'admin',
+  COURSE_CREATOR = 'COURSE_CREATOR',
   STUDENT = 'student',
 }
 
