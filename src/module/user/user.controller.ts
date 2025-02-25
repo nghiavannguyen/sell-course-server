@@ -10,6 +10,8 @@ import {
   Req,
   ParseUUIDPipe,
   Logger,
+  Query,
+  Put,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -17,6 +19,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { Roles } from 'src/lib/shared/constant/meta-data';
 import { UserRole } from 'src/lib/entity/user/user.entity';
+import { PaginationDto } from 'src/lib/shared/dto/pagination.dto';
 
 @Controller('user')
 export class UserController {
@@ -29,10 +32,10 @@ export class UserController {
 
   @Get()
   @Roles(UserRole.ADMIN)
-  findAll(@Req() req) {
+  findAll(@Req() req, @Query() PaginationDto: PaginationDto) {
     new Logger.log('req.user ', req.user);
 
-    return this.userService.findAll();
+    return this.userService.findAll(PaginationDto);
   }
 
   @Roles(UserRole.ADMIN, UserRole.COURSE_CREATOR)
@@ -41,7 +44,7 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }

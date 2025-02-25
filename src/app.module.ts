@@ -1,3 +1,4 @@
+import { PaginationService } from './lib/shared/service/pagination.service';
 import {
   forwardRef,
   MiddlewareConsumer,
@@ -28,7 +29,8 @@ import { LoggerMiddleware } from './lib/shared/middle-ware/logger.middleware';
     SharedModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+        PaginationService, AppService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

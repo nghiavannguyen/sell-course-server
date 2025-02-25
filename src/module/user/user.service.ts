@@ -8,12 +8,16 @@ import { ResponseBase } from 'src/lib/shared/constant/response_base';
 import { BcryptService } from '../auth/service/bcrypt.service';
 import { RefreshToken } from 'src/lib/entity/user/refresh-token.entity';
 import { access } from 'fs';
+import { PaginationDto } from 'src/lib/shared/dto/pagination.dto';
+import { PaginationResult } from 'src/lib/shared/interface/pagination-result.interface';
+import { PaginationService } from 'src/lib/shared/service/pagination.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly bcryptService: BcryptService,
+    private readonly paginationService: PaginationService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -53,8 +57,11 @@ export class UserService {
       throw new HttpException(`${e.message}`, HttpStatus.BAD_REQUEST);
     }
   }
-  async findAll(): Promise<User[]> {
-    return await this.userRepository.find({});
+  async findAll(paginationDto: PaginationDto): Promise<PaginationResult<User>> {
+    return await this.paginationService.paginate<User>(
+      this.userRepository,
+      paginationDto,
+    );
   }
 
   async findOne(id: string) {
