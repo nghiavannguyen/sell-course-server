@@ -11,7 +11,7 @@ import { Course } from './course.entity';
   @Entity('categories')
   export class Category {
     @PrimaryGeneratedColumn()
-    category_id: number;
+    categoryId: number;
   
     @Column({ unique: true, length: 100 })
     name: string;

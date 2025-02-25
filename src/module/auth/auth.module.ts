@@ -11,11 +11,14 @@ import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import { ConfigModule } from '@nestjs/config/dist/config.module';
 import { ConfigService } from '@nestjs/config';
 import { RolesGuard } from './guard/roles.guard';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { RefreshToken } from 'src/lib/entity/user/refresh-token.entity';
 
 @Module({
   imports: [
     UserModule,
     PassportModule,
+    TypeOrmModule.forFeature([RefreshToken]),
     JwtModule.registerAsync({
       global: true,
       imports: [ConfigModule],

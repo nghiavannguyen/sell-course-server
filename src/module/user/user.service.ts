@@ -6,6 +6,8 @@ import { Repository } from 'typeorm';
 import { User, UserRole } from 'src/lib/entity/user/user.entity';
 import { ResponseBase } from 'src/lib/shared/constant/response_base';
 import { BcryptService } from '../auth/service/bcrypt.service';
+import { RefreshToken } from 'src/lib/entity/user/refresh-token.entity';
+import { access } from 'fs';
 
 @Injectable()
 export class UserService {
@@ -39,7 +41,7 @@ export class UserService {
     try {
       const user = await this.userRepository.findOne({
         where: { email },
-        select: ['user_id', 'name', 'email', 'password', 'role'],
+        select: ['userId', 'name', 'email', 'password', 'role'],
       });
       if (user != null) {
         return user;
@@ -58,7 +60,7 @@ export class UserService {
   async findOne(id: string) {
     try {
       const user = await this.userRepository.findOne({
-        where: { user_id: id.toString() },
+        where: { userId: id.toString() },
       });
       if (user != null) {
         return user;

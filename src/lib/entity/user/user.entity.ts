@@ -9,6 +9,7 @@ import {
 import { Course } from '../course/course.entity';
 import { Note } from '../course/note.entity';
 import { Comment } from '../course/comment.entity';
+import { RefreshToken } from './refresh-token.entity';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -19,7 +20,7 @@ export enum UserRole {
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  user_id: string;
+  userId: string;
 
   @Column()
   name: string;
@@ -44,6 +45,9 @@ export class User {
   // Các ghi chú của user (dành cho học viên)
   @OneToMany(() => Note, (note) => note.user)
   notes: Note[];
+
+  @OneToMany(() => RefreshToken, (rf) => rf.user)
+  refreshToken: RefreshToken[];
 
   @CreateDateColumn({
     type: 'timestamptz',

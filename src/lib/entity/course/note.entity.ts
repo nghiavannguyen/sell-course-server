@@ -13,7 +13,7 @@ import { User } from '../user/user.entity';
   @Entity('notes')
   export class Note {
     @PrimaryGeneratedColumn()
-    note_id: number;
+    noteId: number;
   
     @ManyToOne(() => Video, (video) => video.notes, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'video_id' })

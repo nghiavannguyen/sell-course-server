@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { AuthService } from './service/auth.service';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
@@ -32,5 +33,21 @@ export class AuthController {
   @Public()
   login(@Body() login: LoginDto) {
     return this.authService.login(login);
+  }
+
+  @Post('refresh')
+  @Public()
+  async refresh(@Body('refreshToken') refreshToken: string) {
+    if (!refreshToken)
+      throw new UnauthorizedException('Refresh token required');
+    return this.authService.refreshToken(refreshToken);
+  }
+
+  @Post('logout')
+  @Public()
+  async logout(@Body('refreshToken') refreshToken: string) {
+    if (!refreshToken)
+      throw new UnauthorizedException('Refresh token required');
+    return this.authService.logout(refreshToken);
   }
 }
