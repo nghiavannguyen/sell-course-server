@@ -4,7 +4,6 @@ import { UserController } from './user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/lib/entity/user/user.entity';
 import { BcryptService } from '../auth/service/bcrypt.service';
-import { RefreshToken } from 'src/lib/entity/user/refresh-token.entity';
 import { SharedModule } from 'src/lib/shared/shared.module';
 
 @Module({

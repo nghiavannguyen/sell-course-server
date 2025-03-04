@@ -26,7 +26,7 @@ export class AuthService {
       });
       this.logger.log(
         `refreshToken ${JSON.stringify(objRf)} ${objRf.expireAt} ${
-          objRf.user.userId
+          objRf.user.id
         }`,
       );
 
@@ -36,10 +36,10 @@ export class AuthService {
           HttpStatus.BAD_REQUEST,
         );
       }
-      const user = await this.userService.findOne(objRf.user.userId);
+      const user = await this.userService.findOne(objRf.user.id);
       const payload = {
         username: user.email,
-        sub: user.userId,
+        userId: user.id,
         role: user.role,
       };
       return {
@@ -80,10 +80,10 @@ export class AuthService {
       }
       const payload = {
         username: result.email,
-        sub: result.userId,
+        userId: result.id,
         role: result.role,
       };
-      console.log('payload ', payload);
+      console.log('payload login ', payload);
 
       const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
       console.log('refreshToken ', refreshToken);

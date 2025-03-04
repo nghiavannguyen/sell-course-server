@@ -3,14 +3,12 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User, UserRole } from 'src/lib/entity/user/user.entity';
-import { ResponseBase } from 'src/lib/shared/constant/response_base';
 import { BcryptService } from '../auth/service/bcrypt.service';
-import { RefreshToken } from 'src/lib/entity/user/refresh-token.entity';
-import { access } from 'fs';
 import { PaginationDto } from 'src/lib/shared/dto/pagination.dto';
 import { PaginationResult } from 'src/lib/shared/interface/pagination-result.interface';
 import { PaginationService } from 'src/lib/shared/service/pagination.service';
+import { User } from 'src/lib/entity/user/user.entity';
+import { UserRole } from 'src/lib/shared/constant/enum_constant';
 
 @Injectable()
 export class UserService {
@@ -45,7 +43,7 @@ export class UserService {
     try {
       const user = await this.userRepository.findOne({
         where: { email },
-        select: ['userId', 'name', 'email', 'password', 'role'],
+        select: ['id', 'name', 'email', 'password', 'role'],
       });
       if (user != null) {
         return user;
@@ -64,10 +62,10 @@ export class UserService {
     );
   }
 
-  async findOne(id: string) {
+  async findOne(id: number) {
     try {
       const user = await this.userRepository.findOne({
-        where: { userId: id.toString() },
+        where: { id: id },
       });
       if (user != null) {
         return user;

@@ -18,8 +18,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { Roles } from 'src/lib/shared/constant/meta-data';
-import { UserRole } from 'src/lib/entity/user/user.entity';
 import { PaginationDto } from 'src/lib/shared/dto/pagination.dto';
+import { UserRole } from 'src/lib/shared/constant/enum_constant';
 
 @Controller('user')
 export class UserController {
@@ -38,9 +38,9 @@ export class UserController {
     return this.userService.findAll(PaginationDto);
   }
 
-  @Roles(UserRole.ADMIN, UserRole.COURSE_CREATOR)
+  @Roles(UserRole.ADMIN, UserRole.INSTRUCTOR)
   @Get(':id')
-  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
+  findOne(@Param('id', new ParseUUIDPipe()) id: number) {
     return this.userService.findOne(id);
   }
 

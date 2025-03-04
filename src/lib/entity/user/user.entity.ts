@@ -2,63 +2,68 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
+  OneToMany,
+  OneToOne,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToMany,
 } from 'typeorm';
 import { Course } from '../course/course.entity';
-import { Note } from '../course/note.entity';
-import { Comment } from '../course/comment.entity';
+import { Enrollment } from '../enrollment/enrollment.entity';
+import { Wishlist } from '../course/wish-list.entity';
+import { Review } from '../course/review.entity';
+import { UserSettings } from './user-setting.entity';
+import { Notification } from './notification.entity';
 import { RefreshToken } from './refresh-token.entity';
-
-export enum UserRole {
-  ADMIN = 'admin',
-  COURSE_CREATOR = 'COURSE_CREATOR',
-  STUDENT = 'student',
-}
 
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  userId: string;
+  // how to make id is uuid
+  id: number;
+
+  @Column({ unique: true, length: 255 })
+  email: string;
 
   @Column()
   name: string;
 
-  @Column({ unique: true, nullable: true })
-  email: string;
-
-  @Column({ select: false })
+  @Column({ name: 'password', length: 255 })
   password: string;
 
-  @Column({ type: 'enum', enum: UserRole })
-  role: UserRole;
+  @Column({ length: 50 })
+  role: string;
 
-  // Nếu user là admin, có thể có nhiều khóa học tạo ra
-  @OneToMany(() => Course, (course) => course.admin)
-  courses: Course[];
+  @Column({ type: 'text', nullable: true })
+  bio: string;
 
-  // Các bình luận của user (dành cho học viên)
-  @OneToMany(() => Comment, (comment) => comment.user)
-  comments: Comment[];
+  @Column({ name: 'profile_picture_url', length: 255, nullable: true })
+  profilePictureUrl: string;
 
-  // Các ghi chú của user (dành cho học viên)
-  @OneToMany(() => Note, (note) => note.user)
-  notes: Note[];
-
-  @OneToMany(() => RefreshToken, (rf) => rf.user)
-  refreshToken: RefreshToken[];
-
-  @CreateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;
 
-  @UpdateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
-  })
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
   updatedAt: Date;
+
+  // Relationships
+  @OneToMany(() => Course, (course) => course.instructor)
+  courses: Course[];
+
+  @OneToMany(() => Enrollment, (enrollment) => enrollment.user)
+  enrollments: Enrollment[];
+
+  @OneToMany(() => Wishlist, (wishlist) => wishlist.user)
+  wishlists: Wishlist[];
+
+  @OneToMany(() => Review, (review) => review.user)
+  reviews: Review[];
+
+  @OneToMany(() => Notification, (notification) => notification.user)
+  notifications: Notification[];
+
+  @OneToMany(() => RefreshToken, (refreshToken) => refreshToken.user)
+  refreshToken: RefreshToken[];
+
+  @OneToOne(() => UserSettings, (settings) => settings.user)
+  settings: UserSettings;
 }
