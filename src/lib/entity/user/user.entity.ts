@@ -8,18 +8,18 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Course } from '../course/course.entity';
-import { Enrollment } from '../enrollment/enrollment.entity';
 import { Wishlist } from '../course/wish-list.entity';
 import { Review } from '../course/review.entity';
 import { UserSettings } from './user-setting.entity';
 import { Notification } from './notification.entity';
 import { RefreshToken } from './refresh-token.entity';
+import { Enrollment } from '../course/enrollment.entity';
 
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   // how to make id is uuid
-  id: number;
+  id: string;
 
   @Column({ unique: true, length: 255 })
   email: string;

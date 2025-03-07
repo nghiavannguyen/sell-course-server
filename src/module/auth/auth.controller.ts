@@ -13,8 +13,8 @@ import { AuthService } from './service/auth.service';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import { LoginDto } from './dto/login.dto';
 import { Public } from 'src/lib/shared/constant/meta-data';
-import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
+import { UserService } from '../user/service/user.service';
 
 @Controller('auth')
 export class AuthController {

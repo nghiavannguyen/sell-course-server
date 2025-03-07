@@ -11,20 +11,14 @@
         - '5432:5432'
 
     app:
-      build:
-        context: .
-        dockerfile: Dockerfile
+      image: nghiavannguyen/nest- course:latest
       container_name: nest-docker-postgres
-      # image: nghiavannguyen/nest- course:latest
-      # container_name: nest-docker-postgres
       environment:
         - PORT=${APP_PORT}
       ports:
         - '3001:3001'
       depends_on:
         - db
-      volumes:
-        - ./src:/app/src
 
     pgadmin:
       image: dpage/pgadmin4

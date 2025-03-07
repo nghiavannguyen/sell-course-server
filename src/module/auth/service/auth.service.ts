@@ -1,11 +1,11 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { UserService } from '../../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { BcryptService } from './bcrypt.service';
 import { LoginDto } from '../dto/login.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RefreshToken } from 'src/lib/entity/user/refresh-token.entity';
 import { Repository } from 'typeorm';
+import { UserService } from 'src/module/user/service/user.service';
 
 @Injectable()
 export class AuthService {

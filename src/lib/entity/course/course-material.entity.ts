@@ -11,7 +11,7 @@ import { Course } from './course.entity';
 @Entity('course_materials')
 export class CourseMaterial {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @ManyToOne(() => Course, (course) => course.materials)
   @JoinColumn({ name: 'course_id' })

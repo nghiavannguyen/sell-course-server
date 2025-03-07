@@ -1,14 +1,14 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { BcryptService } from '../auth/service/bcrypt.service';
 import { PaginationDto } from 'src/lib/shared/dto/pagination.dto';
 import { PaginationResult } from 'src/lib/shared/interface/pagination-result.interface';
 import { PaginationService } from 'src/lib/shared/service/pagination.service';
 import { User } from 'src/lib/entity/user/user.entity';
 import { UserRole } from 'src/lib/shared/constant/enum_constant';
+import { BcryptService } from 'src/module/auth/service/bcrypt.service';
+import { CreateUserDto } from '../dto/create-user.dto';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -62,10 +62,25 @@ export class UserService {
     );
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     try {
       const user = await this.userRepository.findOne({
         where: { id: id },
+        select: ['id', 'name', 'email', 'role'],
+      });
+      if (user != null) {
+        return user;
+      }
+      throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
+    } catch (e) {
+      throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+  async findOneExcludePassword(id: string) {
+    try {
+      const user = await this.userRepository.findOne({
+        where: { id: id },
+        select: ['id', 'name', 'email', 'role'],
       });
       if (user != null) {
         return user;

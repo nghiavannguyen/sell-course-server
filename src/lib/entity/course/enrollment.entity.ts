@@ -12,7 +12,7 @@ import { User } from '../user/user.entity';
 @Entity('enrollments')
 export class Enrollment {
   @PrimaryGeneratedColumn("uuid")
-  id: number;
+  id: string;
 
   @ManyToOne(() => User, (user) => user.enrollments)
   @JoinColumn({ name: 'user_id' })

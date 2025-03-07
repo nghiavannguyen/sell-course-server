@@ -11,16 +11,16 @@ import {
 import { Category } from './category.entity';
 import { User } from '../user/user.entity';
 import { CourseMaterial } from './course-material.entity';
-import { Enrollment } from '../enrollment/enrollment.entity';
 import { Lesson } from './lesson.entity';
 import { Review } from './review.entity';
 import { Wishlist } from './wish-list.entity';
 import { Section } from './section.entity';
+import { Enrollment } from './enrollment.entity';
 
 @Entity('courses')
 export class Course {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({ length: 255 })
   title: string;

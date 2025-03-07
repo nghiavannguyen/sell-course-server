@@ -1,10 +1,5 @@
-import { PaginationService } from './lib/shared/service/pagination.service';
-import {
-  forwardRef,
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-} from '@nestjs/common';
+import { CourseModule } from './module/course/course.module';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -25,12 +20,12 @@ import { LoggerMiddleware } from './lib/shared/middle-ware/logger.middleware';
       useFactory: TypeOrmPostgresConfig,
     }),
     UserModule,
+    CourseModule,
     AuthModule,
     SharedModule,
   ],
   controllers: [AppController],
-  providers: [
-        PaginationService, AppService],
+  providers: [AppService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

@@ -11,8 +11,8 @@ import { User } from '../user/user.entity';
 
 @Entity('wishlist')
 export class Wishlist {
-  @PrimaryGeneratedColumn("uuid")
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ManyToOne(() => User, (user) => user.wishlists)
   @JoinColumn({ name: 'user_id' })

@@ -13,13 +13,12 @@ import {
   Query,
   Put,
 } from '@nestjs/common';
-import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { Roles } from 'src/lib/shared/constant/meta-data';
 import { PaginationDto } from 'src/lib/shared/dto/pagination.dto';
 import { UserRole } from 'src/lib/shared/constant/enum_constant';
+import { CreateUserDto } from '../dto/create-user.dto';
+import { UpdateUserDto } from '../dto/update-user.dto';
+import { UserService } from '../service/user.service';
 
 @Controller('user')
 export class UserController {
@@ -40,7 +39,7 @@ export class UserController {
 
   @Roles(UserRole.ADMIN, UserRole.INSTRUCTOR)
   @Get(':id')
-  findOne(@Param('id', new ParseUUIDPipe()) id: number) {
+  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.userService.findOne(id);
   }
 

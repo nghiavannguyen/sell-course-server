@@ -11,7 +11,7 @@ import { User } from './user.entity';
 @Entity('user_settings')
 export class UserSettings {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @OneToOne(() => User, (user) => user.settings)
   @JoinColumn({ name: 'user_id' })
