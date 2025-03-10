@@ -25,10 +25,21 @@ export class SectionController {
     return this.sectionsService.create(createSectionDto);
   }
 
+  @Post('bulk')
+  createBulk(@Body() createSectionDto: CreateSectionDto[]) {
+    return this.sectionsService.createBulk(createSectionDto);
+  }
+
   @Get()
   findAll(@Query() paginateQuery: PaginationDto) {
     return this.sectionsService.findAll(paginateQuery);
   }
+
+  @Get('course/:id')
+  findByCourseId(@Param('id') id: string) {
+    return this.sectionsService.findByCourseId(id);
+  }
+
 
   @Get(':id')
   findOne(@Param('id') id: string) {

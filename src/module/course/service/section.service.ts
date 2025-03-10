@@ -28,7 +28,21 @@ export class SectionService {
       return await this.sectionRepository.save(section);
     } catch (error) {
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
-    }
+  }
+  }
+  async createBulk(createSectionDto: CreateSectionDto[]): Promise<Section[]> {
+    const sections = Promise.all(
+      createSectionDto.map(async (section) => {
+        return await this.create(section);
+      }),
+    );
+    return sections;
+  }
+
+  async findByCourseId(id: string): Promise<Section[]> {
+    return this.sectionRepository.find({
+      where: { course: { id: id } },
+    });
   }
 
   async findAll(paginateDto: PaginationDto) {
@@ -51,12 +65,12 @@ export class SectionService {
     updateSectionDto: UpdateSectionDto,
   ): Promise<Section> {
     const section = await this.findOne(id);
-    if(!section) {
+    if (!section) {
       throw new HttpException('Section not found', HttpStatus.NOT_FOUND);
     }
     try {
       section.title = updateSectionDto.title;
-      
+
       section.order = updateSectionDto.order;
       section.description = updateSectionDto.description;
       return await this.sectionRepository.save(section);

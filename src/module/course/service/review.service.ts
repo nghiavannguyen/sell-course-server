@@ -4,22 +4,35 @@ import { Review } from 'src/lib/entity/course/review.entity';
 import { Repository } from 'typeorm';
 import { CreateReviewDto } from '../dto/create-review.dto';
 import { UpdateReviewDto } from '../dto/update-review.dto';
+import { CourseService } from './course.service';
 
 @Injectable()
 export class ReviewsService {
   constructor(
     @InjectRepository(Review)
     private readonly reviewRepository: Repository<Review>,
+
+    private readonly courseService: CourseService,
   ) {}
 
   async create(createDto: CreateReviewDto): Promise<Review> {
+    const course = await this.courseService.findOne(createDto.courseId);
+    if (!course) {
+      throw new HttpException('Course not found', HttpStatus.NOT_FOUND);
+    }
     const review = this.reviewRepository.create({
       id: createDto.userId,
       rating: createDto.rating,
       comment: createDto.comment,
-      course: { id: createDto.courseId } as any,
+      course: course,
     });
     return await this.reviewRepository.save(review);
+  }
+
+  async findByCourseId(courseId: string): Promise<Review[]> {
+    return this.reviewRepository.find({
+      where: { course: { id: courseId } },
+    });
   }
 
   async findAll(): Promise<Review[]> {

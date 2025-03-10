@@ -24,10 +24,19 @@ export class LessonController {
   create(@Body() createLessonDto: CreateLessonDto) {
     return this.lessonsService.create(createLessonDto);
   }
+  @Post('/bulk')
+  createBulk(@Body() createLessonDto: CreateLessonDto[]) {
+    return this.lessonsService.createBulk(createLessonDto);
+  }
 
   @Get()
   findAll(@Query() paginateQuery: PaginationDto) {
     return this.lessonsService.findAll(paginateQuery);
+  }
+
+  @Get('section/:id')
+  findBySectionId(@Param('id') id: string) {
+    return this.lessonsService.findBySectionId(id);
   }
 
   @Get(':id')

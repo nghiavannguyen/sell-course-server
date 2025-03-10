@@ -32,6 +32,20 @@ export class LessonService {
     return await this.lessonRepository.save(lesson);
   }
 
+  async createBulk(createLessonDto: CreateLessonDto[]): Promise<Lesson[]> {
+    const lessons = await Promise.all(
+      createLessonDto.map(async (lesson) => {
+        return await this.create(lesson);
+      }),
+    );
+    return lessons;
+  }
+  async findBySectionId(sectionId: string): Promise<Lesson[]> {
+    return this.lessonRepository.find({
+      where: { section: { id: sectionId } },
+    });
+  }
+
   async findAll(paginateQuery: PaginationDto) {
     return await this.paginationService.paginate<Lesson>(
       this.lessonRepository,
