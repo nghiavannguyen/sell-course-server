@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common/pipes';
 import { SwaggerModule } from '@nestjs/swagger';
 import { configSwagger } from './lib/config/swagger.config';
-import { Logger } from '@nestjs/common';
+import { Logger, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ResponseFormatInterceptor } from './lib/shared/interceptor/res.interceptor';
 import { PostStatusInterceptor } from './lib/shared/interceptor/post-status.interceptor';
@@ -11,9 +11,15 @@ import { PostStatusInterceptor } from './lib/shared/interceptor/post-status.inte
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
   app.enableCors();
-  app.setGlobalPrefix('/api');
+  app.enableVersioning({
+    defaultVersion: '1',
+    prefix: 'api/v',
+    type: VersioningType.URI,
+  });
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   const document = SwaggerModule.createDocument(app, configSwagger);
+
+
 
   // Ứng dụng của Interceptor
   // Thay đổi status code (như trong đoạn code của bạn).
@@ -26,7 +32,11 @@ async function bootstrap() {
     new PostStatusInterceptor(),
   );
 
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api', app, document, {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+  });
 
   await app.listen(process.env.APP_PORT);
   const url = await app.getUrl();

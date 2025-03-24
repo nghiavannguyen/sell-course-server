@@ -13,7 +13,11 @@ export class ResponseFormatInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((data) => {
         // Bạn có thể điều chỉnh statusCode, message theo nhu cầu. Ví dụ:
-        return new ResponseBase('200', 'Success', data).toJSON();
+        const ctx = context.switchToHttp();
+        const response = ctx.getResponse();
+        const statusCode = response.statusCode;
+        const message = data && data.message ? data.message : 'Success';
+        return new ResponseBase(statusCode, message, data).toJSON();
       }),
     );
   }

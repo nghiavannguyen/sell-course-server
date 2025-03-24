@@ -19,6 +19,7 @@ import { UserRole } from 'src/lib/shared/constant/enum_constant';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserService } from '../service/user.service';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('user')
 export class UserController {
@@ -31,6 +32,7 @@ export class UserController {
 
   @Get()
   @Roles(UserRole.ADMIN)
+  @ApiBearerAuth()
   findAll(@Req() req, @Query() PaginationDto: PaginationDto) {
     new Logger.log('req.user ', req.user);
 

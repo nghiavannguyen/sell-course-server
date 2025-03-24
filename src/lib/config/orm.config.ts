@@ -7,7 +7,7 @@ export const TypeOrmPostgresConfig = async (
 ): Promise<TypeOrmModuleOptions> => {
   return {
     type: 'postgres',
-    host: configService.get<string>('app.database.host', 'db'),
+    host: configService.get<string>('app.database.host', 'localhost'),
     port: configService.get<number>('app.database.port', 5432),
     username: configService.get<string>('app.database.username', 'postgres'),
     password: configService.get<string>('app.database.password', 'postgres'),
