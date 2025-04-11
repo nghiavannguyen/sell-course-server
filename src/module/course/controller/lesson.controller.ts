@@ -9,7 +9,7 @@ import {
   Query,
   Put,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateLessonDto } from '../dto/create-lesson.dto';
 import { UpdateLessonDto } from '../dto/update-lesson.dto';
 import { LessonService } from '../service/lesson.service';
@@ -17,6 +17,8 @@ import { PaginationDto } from 'src/lib/shared/dto/pagination.dto';
 
 @ApiTags('lessons')
 @Controller('lessons')
+@ApiBearerAuth()
+
 export class LessonController {
   constructor(private readonly lessonsService: LessonService) {}
 

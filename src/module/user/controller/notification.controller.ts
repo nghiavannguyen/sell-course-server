@@ -7,12 +7,14 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { NotificationsService } from '../service/notification.service';
 import { CreateNotificationDto } from '../dto/create-notification.dto';
 
 @ApiTags('notifications')
 @Controller('notifications')
+@ApiBearerAuth()
+
 export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 

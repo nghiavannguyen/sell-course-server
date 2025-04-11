@@ -22,6 +22,7 @@ import { UserService } from '../service/user.service';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('user')
+@ApiBearerAuth()
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -32,7 +33,6 @@ export class UserController {
 
   @Get()
   @Roles(UserRole.ADMIN)
-  @ApiBearerAuth()
   findAll(@Req() req, @Query() PaginationDto: PaginationDto) {
     new Logger.log('req.user ', req.user);
 

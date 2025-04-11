@@ -12,9 +12,11 @@ import { ApiTags } from '@nestjs/swagger';
 import { CreateCategoryDto } from '../dto/create-category.dto';
 import { UpdateCategoryDto } from '../dto/update-category.dto';
 import { CategoryService } from '../service/category.service';
+import { Public } from 'src/lib/shared/constant/meta-data';
 
 @ApiTags('categories')
 @Controller('categories')
+@Public()
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoryService) {}
 

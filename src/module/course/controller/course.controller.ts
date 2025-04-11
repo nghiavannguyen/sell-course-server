@@ -10,7 +10,7 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CourseService } from '../service/course.service';
 import { CreateCourseDto } from '../dto/create-course.dto';
 import { UpdateCourseDto } from '../dto/update-course.dto';
@@ -18,6 +18,8 @@ import { PaginationDto } from 'src/lib/shared/dto/pagination.dto';
 
 @ApiTags('courses')
 @Controller('courses')
+@ApiBearerAuth()
+
 export class CourseController {
   constructor(private readonly coursesService: CourseService) {}
 

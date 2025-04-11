@@ -9,7 +9,7 @@ import {
   Query,
   Put,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateSectionDto } from '../dto/create-section.dto';
 import { UpdateSectionDto } from '../dto/update-section.dto';
 import { SectionService } from '../service/section.service';
@@ -17,6 +17,8 @@ import { PaginationDto } from 'src/lib/shared/dto/pagination.dto';
 
 @ApiTags('sections')
 @Controller('sections')
+@ApiBearerAuth()
+
 export class SectionController {
   constructor(private readonly sectionsService: SectionService) {}
 
