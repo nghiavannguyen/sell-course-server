@@ -1,6 +1,7 @@
 // pagination.dto.ts
-import { IsInt, Min, IsOptional } from 'class-validator';
+import { IsInt, Min, IsOptional, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class PaginationDto {
   @IsOptional()
@@ -13,5 +14,14 @@ export class PaginationDto {
   @IsInt()
   @Min(1)
   @Type(() => Number)
-  limit?: number = 10; // Mặc định là 10 bản ghi mỗi trang
+  limit?: number = 10;
+
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional({
+    required: false,
+    name: 'search',
+    description: 'Tìm kiếm theo title, name (không bắt buộc)',
+  })
+  search?: string; // Tìm kiếm theo tên khóa học
 }

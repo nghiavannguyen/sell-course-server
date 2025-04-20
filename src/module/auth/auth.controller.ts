@@ -1,16 +1,10 @@
 import {
   Controller,
-  Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthService } from './service/auth.service';
-import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import { LoginDto } from './dto/login.dto';
 import { Public } from 'src/lib/shared/constant/meta-data';
 import { CreateUserDto } from '../user/dto/create-user.dto';

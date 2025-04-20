@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Put,
+  Req,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateWishlistDto } from '../dto/create-wish-list.dto';
@@ -16,7 +17,6 @@ import { WishlistService } from '../service/wishlist.service';
 @ApiTags('wishlists')
 @Controller('wishlists')
 @ApiBearerAuth()
-
 export class WishlistController {
   constructor(private readonly wishlistService: WishlistService) {}
 
@@ -28,6 +28,15 @@ export class WishlistController {
   @Get()
   findAll() {
     return this.wishlistService.findAll();
+  }
+
+  @Get('me')
+  async findMyWishlists(@Req() req: any) {
+    const userId = req.user.userId;
+
+    return this.wishlistService.findAll({
+      where: { user: { id: userId } },
+    });
   }
 
   @Get(':id')

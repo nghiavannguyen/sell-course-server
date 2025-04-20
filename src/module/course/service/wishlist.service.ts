@@ -1,7 +1,7 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Wishlist } from 'src/lib/entity/course/wish-list.entity';
-import { Repository } from 'typeorm';
+import { FindManyOptions, Repository } from 'typeorm';
 import { CreateWishlistDto } from '../dto/create-wish-list.dto';
 import { UpdateWishlistDto } from '../dto/update-wishlist.dto';
 
@@ -21,8 +21,8 @@ export class WishlistService {
     return wishlist;
   }
 
-  async findAll(): Promise<Wishlist[]> {
-    return await this.wishlistRepository.find();
+  async findAll(options?: FindManyOptions<Wishlist>): Promise<Wishlist[]> {
+    return await this.wishlistRepository.find(options);
   }
 
   async findOne(id: string): Promise<Wishlist> {
