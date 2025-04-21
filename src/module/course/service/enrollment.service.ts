@@ -1,7 +1,7 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Enrollment } from 'src/lib/entity/course/enrollment.entity';
-import { Repository } from 'typeorm';
+import { FindManyOptions, Repository } from 'typeorm';
 import { CreateEnrollmentDto } from '../dto/create-enrollment.dto';
 import { UpdateEnrollmentDto } from '../dto/update-enrollment.dto';
 import { Course } from 'src/lib/entity/course/course.entity';
@@ -36,10 +36,12 @@ export class EnrollmentService {
 
   async findAll(
     paginateQuery: PaginationDto,
+    options?: FindManyOptions<Enrollment>,
   ): Promise<PaginationResult<Enrollment>> {
     return await this.paginationService.paginate<Enrollment>(
       this.enrollmentRepository,
       paginateQuery,
+      options,
     );
   }
 

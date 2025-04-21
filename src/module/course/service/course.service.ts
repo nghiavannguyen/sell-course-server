@@ -1,7 +1,7 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Course } from 'src/lib/entity/course/course.entity';
-import { ILike, Repository } from 'typeorm';
+import { FindManyOptions, ILike, Repository } from 'typeorm';
 import { CreateCourseDto } from '../dto/create-course.dto';
 import { UpdateCourseDto } from '../dto/update-course.dto';
 import { Category } from 'src/lib/entity/course/category.entity';
@@ -9,6 +9,7 @@ import { UserService } from 'src/module/user/service/user.service';
 import { PaginationService } from 'src/lib/shared/service/pagination.service';
 import { PaginationDto } from 'src/lib/shared/dto/pagination.dto';
 import { title } from 'process';
+import { PaginationResult } from 'src/lib/shared/interface/pagination-result.interface';
 
 @Injectable()
 export class CourseService {
@@ -50,21 +51,21 @@ export class CourseService {
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
     }
   }
-
-  async findAll(paginateDto: PaginationDto) {
-    const { page, limit, search } = paginateDto;
-    console.log({ paginateDto });
-
-    const whereCondition = search ? { title: ILike(`%${search}%`) } : {};
+  async findAll(
+    paginateDto: PaginationDto,
+    options?: FindManyOptions<Course>,
+  ): Promise<PaginationResult<Course>> {
     return await this.paginationService.paginate<Course>(
       this.courseRepository,
       paginateDto,
-      {
-        where: whereCondition,
-        order: {
-          createdAt: 'DESC',
-        },
-      },
+      options,
+    );
+  }
+
+  async filterCourse(paginateDto: PaginationDto) {
+    return await this.paginationService.paginate<Course>(
+      this.courseRepository,
+      paginateDto,
     );
   }
 

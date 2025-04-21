@@ -8,12 +8,22 @@ export class PaginationDto {
   @IsInt()
   @Min(1)
   @Type(() => Number)
+  @ApiPropertyOptional({
+    required: false,
+    name: 'page',
+    description: 'trang hiện tại',
+  })
   page?: number = 1; // Mặc định là trang 1
 
   @IsOptional()
   @IsInt()
   @Min(1)
   @Type(() => Number)
+  @ApiPropertyOptional({
+    required: false,
+    name: 'limit',
+    description: 'giới hạn số lượng bản ghi trả về',
+  })
   limit?: number = 10;
 
   @IsOptional()
@@ -21,7 +31,7 @@ export class PaginationDto {
   @ApiPropertyOptional({
     required: false,
     name: 'search',
-    description: 'Tìm kiếm theo title, name (không bắt buộc)',
+    description: 'Tìm kiếm ',
   })
   search?: string; // Tìm kiếm theo tên khóa học
 }
